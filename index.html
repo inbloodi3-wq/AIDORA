@@ -11,31 +11,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet" />
 
     <style>
-        /* =========================================
-           1. Design System
-        ========================================= */
+        /* 1. Design System */
         :root {
             --bg-warm: #f2f0ed;
             --text-dark: #1a1a1a;
-            --text-muted: #8c8c8c;
             --accent-amber: #d9b99b;
             --deep-amber: #c19a74;
-
             --font-sans: "SUIT", -apple-system, sans-serif;
             --font-serif: "Cormorant", serif;
-
             --typo-display-l-size: clamp(60px, 10vw, 120px);
-            --typo-display-l-weight: 800;
-            --typo-display-l-lh: 1.1;
-            --typo-display-l-ls: -0.02em;
-
-            --typo-display-s-size: clamp(32px, 4vw, 42px);
-            --typo-display-s-weight: 700;
-
-            --typo-body-l-size: 16px;
-            --typo-body-l-weight: 400;
-            --typo-body-lh: 1.8;
-            --typo-body-ls: -0.005em;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
@@ -46,7 +30,7 @@
             font-family: var(--font-sans);
             -webkit-font-smoothing: antialiased;
             overflow-x: hidden;
-            scroll-behavior: smooth;
+            scroll-behavior: smooth; /* CSS 차원의 부드러운 스크롤 */
         }
 
         /* 2. Custom Cursor */
@@ -54,124 +38,105 @@
             position: fixed; top: 0; left: 0;
             width: 250px; height: 250px;
             background: radial-gradient(circle, rgba(193, 154, 116, 0.45) 0%, rgba(193, 154, 116, 0.15) 45%, transparent 75%);
-            border-radius: 50%;
-            pointer-events: none; transform: translate(-50%, -50%);
+            border-radius: 50%; pointer-events: none; transform: translate(-50%, -50%);
             z-index: 1020; transition: width 0.4s ease, height 0.4s ease;
-            mix-blend-mode: normal; will-change: transform;
         }
 
         /* 3. Navigation */
         nav {
-            position: fixed; top: 0; left: 0; width: 100%;
-            padding: 32px 5vw; display: flex;
-            justify-content: space-between; align-items: center;
-            z-index: 1000; transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-            background-color: transparent; border-bottom: 1px solid transparent;
+            position: fixed; top: 0; left: 0; width: 100%; padding: 32px 5vw;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000; transition: all 0.5s ease;
         }
         nav.scrolled {
-            padding: 20px 5vw;
-            background-color: rgba(242, 240, 237, 0.85);
+            padding: 20px 5vw; background-color: rgba(242, 240, 237, 0.85);
             backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(26, 26, 26, 0.08);
         }
-        .nav-logo, .nav-menu { pointer-events: auto; transition: all 0.5s ease; color: var(--text-dark); }
         .nav-logo { font-weight: 800; font-size: 28px; letter-spacing: 0.05em; text-transform: uppercase; }
-        .nav-menu { font-weight: 500; font-size: 14px; letter-spacing: 0.08em; display: flex; align-items: center; height: 28px; }
-        .nav-menu-line { display: block; width: 0; height: 2px; background-color: var(--text-dark); margin-left: 10px; transition: width 0.5s ease; }
-        .scrolled .nav-logo { transform: scale(0.65); transform-origin: left center; }
-        .scrolled .nav-menu-text { opacity: 0; position: absolute; pointer-events: none; }
-        .scrolled .nav-menu-line { width: 40px; margin-left: 0; }
+        .nav-menu { font-weight: 500; font-size: 14px; letter-spacing: 0.08em; display: flex; align-items: center; }
+        .nav-menu-line { width: 40px; height: 2px; background: var(--text-dark); margin-left: 10px; display: block; }
 
-        /* 4. Hero Section */
+        /* 4. Luxury Button */
+        .btn-luxury {
+            display: inline-block; margin-top: 48px; padding: 16px 40px;
+            border: 1px solid rgba(255, 255, 255, 0.6); color: #ffffff;
+            text-decoration: none; font-size: 13px; font-weight: 500;
+            letter-spacing: 0.15em; text-transform: uppercase;
+            backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+            transition: all 0.4s ease;
+        }
+        .btn-luxury:hover { background-color: #ffffff; color: var(--text-dark); }
+
+        /* 5. Hero Section */
         .hero {
             position: relative; height: 100vh; display: flex; flex-direction: column;
             justify-content: center; padding: 0 5vw; overflow: hidden;
         }
-        .hero-video-bg {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            object-fit: cover; z-index: 1; filter: sepia(0.05) contrast(1.02);
-        }
-        .hero-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(242, 240, 237, 0.5); z-index: 2;
-        }
-        .hero h1, .hero .hero-desc { position: relative; z-index: 3; }
-        .hero h1 {
-            font-size: var(--typo-display-l-size); font-weight: var(--typo-display-l-weight);
-            line-height: var(--typo-display-l-lh); letter-spacing: var(--typo-display-l-ls);
-            text-transform: uppercase; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-        .hero-desc { font-size: var(--typo-body-l-size); margin-top: 32px; max-width: 600px; word-break: keep-all; }
+        .hero-video-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; filter: sepia(0.05) contrast(1.02); }
+        .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(242, 240, 237, 0.5); z-index: 2; }
+        .hero h1, .hero-desc { position: relative; z-index: 3; }
+        .hero h1 { font-size: var(--typo-display-l-size); font-weight: 800; line-height: 1.1; text-transform: uppercase; }
+        .hero-desc { font-size: 16px; margin-top: 32px; max-width: 600px; line-height: 1.8; }
 
-        /* 5. Signature Section (Right Aligned) */
-        .section-full-visual {
-            position: relative; width: 100%; height: 100vh;
-            display: flex; align-items: center; justify-content: flex-end; overflow: hidden;
+        /* 6. Sections Layout */
+        .section-full-visual, .section-gift-full {
+            position: relative; width: 100%; height: 100vh; display: flex; align-items: center; overflow: hidden;
         }
-        .full-bg-image {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url("./images/GYPSY.webp");
-            background-size: cover; background-position: center;
-            filter: brightness(0.6) sepia(0.05); z-index: 1; transition: transform 2.5s ease;
-        }
-        .section-full-visual.is-visible .full-bg-image { transform: scale(1.03); }
+        
+        .section-full-visual { justify-content: flex-end; }
+        .full-bg-image { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url("./images/GYPSY.webp"); background-size: cover; background-position: center; filter: brightness(0.6); z-index: 1; transition: transform 2.5s ease; }
         .full-content { position: relative; z-index: 2; text-align: right; padding-right: 8vw; color: #ffffff; max-width: 700px; }
-        .full-content .label { font-size: 14px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 24px; display: block; opacity: 0.8; }
-        .full-content h2 { font-size: clamp(40px, 6vw, 80px); font-weight: 800; margin-bottom: 32px; line-height: 1.1; }
-        .full-content p { font-size: 18px; line-height: 1.8; word-break: keep-all; opacity: 0.9; }
 
-        /* 6. Collection Section */
+        /* 기프트 (좌측 배치) */
+        .section-gift-full { justify-content: flex-start; }
+        .gift-bg-image { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url("./images/APFR.webp"); background-size: cover; background-position: center; filter: brightness(0.6); z-index: 1; transition: transform 2.5s ease; }
+        .gift-content-left { position: relative; z-index: 2; text-align: left; padding-left: 8vw; color: #ffffff; max-width: 700px; }
+
+        .label { font-size: 14px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 24px; display: block; opacity: 0.8; }
+        h2 { font-size: clamp(40px, 6vw, 80px); font-weight: 800; margin-bottom: 32px; line-height: 1.1; }
+        p { font-size: 18px; line-height: 1.8; word-break: keep-all; }
+
+        /* 7. Collection Section */
         .section-collection { padding: 240px 5vw 160px; background-color: var(--bg-warm); }
         .collection-header { text-align: center; margin-bottom: 120px; }
         .collection-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4vw; max-width: 1400px; margin: 0 auto; }
-        .collection-item .img-wrap { width: 80%; margin: 0 auto 32px; aspect-ratio: 3/4; overflow: hidden; background-color: #e8e6e3; position: relative; }
+        .collection-item { text-align: center; }
+        .collection-item .img-wrap { width: 80%; margin: 0 auto 32px; aspect-ratio: 3/4; overflow: hidden; background-color: #e8e6e3; }
         .collection-item img { width: 100%; height: 100%; object-fit: cover; padding: 30px; transition: transform 1.6s ease; }
         .collection-item:hover img { transform: scale(1.05); }
 
-        /* 7. Gift Line Section (Left Aligned - New) */
-        .section-gift-full {
-            position: relative; width: 100%; height: 100vh;
-            display: flex; align-items: center; justify-content: flex-start; /* 왼쪽 배치 */
-            overflow: hidden;
-        }
-        .gift-bg-image {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url("./images/APFR.webp");
-            background-size: cover; background-position: center;
-            filter: brightness(0.6) sepia(0.05); z-index: 1; transition: transform 2.5s ease;
-        }
-        .section-gift-full.is-visible .gift-bg-image { transform: scale(1.03); }
-        .gift-content-left {
-            position: relative; z-index: 2; text-align: left; padding-left: 8vw; color: #ffffff; max-width: 700px;
-        }
-
-        /* 8. Animations */
-        .scent-reveal {
-            opacity: 0; filter: blur(15px); transform: translateY(30px);
-            transition: opacity 1.5s cubic-bezier(0.2, 0.8, 0.2, 1), filter 1.5s cubic-bezier(0.2, 0.8, 0.2, 1), transform 1.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-            will-change: transform, opacity, filter;
-        }
-        .scent-reveal.is-visible { opacity: 1; filter: blur(0); transform: translateY(0); }
-
-        /* 9. Back to Top Button */
+        /* 8. Back to Top Button (디자인 & 화살표 폰트 복구) */
         .back-to-top {
             position: fixed; bottom: 40px; right: 40px; width: 52px; height: 52px;
             background-color: rgba(217, 185, 155, 0.15); color: var(--deep-amber);
             border: 1.5px solid var(--deep-amber); border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; font-size: 22px;
-            z-index: 1010; opacity: 0; visibility: hidden;
-            transition: all 0.4s ease; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            display: flex; align-items: center; justify-content: center; 
+            z-index: 1010; opacity: 0; visibility: hidden; 
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            text-decoration: none; cursor: pointer;
+        }
+        /* 👇 화살표에 세리프 폰트를 강제로 먹여 고급스러움을 되찾음 */
+        .back-to-top span {
+            font-family: var(--font-serif);
+            font-weight: 500;
+            font-size: 24px;
+            line-height: 1;
         }
         .back-to-top.is-visible { opacity: 1; visibility: visible; }
         .back-to-top:hover { background-color: var(--deep-amber); color: #ffffff; transform: translateY(-5px); }
 
-        /* 10. Responsive */
+        /* 9. Animation */
+        .scent-reveal { opacity: 0; filter: blur(15px); transform: translateY(30px); transition: all 1.5s ease; }
+        .scent-reveal.is-visible { opacity: 1; filter: blur(0); transform: translateY(0); }
+        .section-full-visual.is-visible .full-bg-image, .section-gift-full.is-visible .gift-bg-image { transform: scale(1.03); }
+
         @media (max-width: 768px) {
+            .collection-grid { grid-template-columns: 1fr; }
             .section-full-visual, .section-gift-full { justify-content: center; }
             .full-content, .gift-content-left { text-align: center; padding: 0 5vw; }
-            .collection-grid { grid-template-columns: 1fr; }
-            .cursor-glow { display: none !important; }
-            * { cursor: auto !important; }
+            .cursor-glow { display: none; }
         }
     </style>
 </head>
@@ -186,8 +151,8 @@
         </div>
     </nav>
 
-    <a href="#navbar" id="backToTop" class="back-to-top" title="최상단으로 이동">
-        <span style="font-family: var(--font-serif); font-weight: 500">↑</span>
+    <a href="javascript:void(0)" id="backToTop" class="back-to-top">
+        <span>↑</span>
     </a>
 
     <main>
@@ -196,10 +161,7 @@
                 <source src="./video/background.mp4" type="video/mp4" />
             </video>
             <div class="hero-overlay"></div>
-            <h1 class="scent-reveal">
-                <span class="short-line">UNSEEN</span>
-                <span class="long-line">PRESENCE</span>
-            </h1>
+            <h1 class="scent-reveal">UNSEEN<br>PRESENCE</h1>
             <p class="hero-desc scent-reveal" style="transition-delay: 0.15s">
                 말하지 않아도 전해지는, 당신과 나 사이의 공백.<br />
                 조용히 곁에 머물며 당신만의 아우라가 되는 향.
@@ -209,15 +171,10 @@
         <section class="section-full-visual scent-reveal">
             <div class="full-bg-image"></div>
             <div class="full-content">
-                <span class="label scent-reveal" style="transition-delay: 0.1s">Signature Scent</span>
-                <h2 class="scent-reveal" style="transition-delay: 0.3s">VOID 16:00</h2>
-                <p class="scent-reveal" style="transition-delay: 0.5s">
-                    서늘한 공기 사이로 비스듬히 떨어지는 오후의 볕.<br />
-                    그 고요하고 나른한 찰나의 온도를 부드러운 잔향으로 엮어냈습니다.
-                </p>
-                <div class="scent-reveal" style="transition-delay: 0.7s">
-                    <a href="#" class="btn-luxury">LEARN MORE</a>
-                </div>
+                <span class="label">Signature Scent</span>
+                <h2>VOID 16:00</h2>
+                <p>서늘한 공기 사이로 비스듬히 떨어지는 오후의 볕.<br>그 고요하고 나른한 찰나의 온도를 부드러운 잔향으로 엮어냈습니다.</p>
+                <a href="#" class="btn-luxury">LEARN MORE</a>
             </div>
         </section>
 
@@ -228,17 +185,17 @@
             </div>
             <div class="collection-grid">
                 <div class="collection-item scent-reveal" style="transition-delay: 0.1s">
-                    <div class="img-wrap"><img src="./images/AFTER.png" alt="HAZE 07:00" /></div>
+                    <div class="img-wrap"><img src="./images/AFTER.png" alt="HAZE" /></div>
                     <div class="item-title">HAZE 07:00</div>
                     <div class="item-metaphor">새벽 이슬을 머금은 옅은 안개</div>
                 </div>
                 <div class="collection-item scent-reveal" style="transition-delay: 0.2s">
-                    <div class="img-wrap"><img src="./images/AFTER.png" alt="BARE 13:00" /></div>
+                    <div class="img-wrap"><img src="./images/AFTER.png" alt="BARE" /></div>
                     <div class="item-title">BARE 13:00</div>
                     <div class="item-metaphor">구름 한 점 없는 투명한 바람</div>
                 </div>
                 <div class="collection-item scent-reveal" style="transition-delay: 0.3s">
-                    <div class="img-wrap"><img src="./images/AFTER.png" alt="ECHO 23:00" /></div>
+                    <div class="img-wrap"><img src="./images/AFTER.png" alt="ECHO" /></div>
                     <div class="item-title">ECHO 23:00</div>
                     <div class="item-metaphor">모두가 잠든 밤의 서늘한 무게감</div>
                 </div>
@@ -248,61 +205,51 @@
         <section class="section-gift-full scent-reveal">
             <div class="gift-bg-image"></div>
             <div class="gift-content-left">
-                <span class="label scent-reveal" style="transition-delay: 0.1s">GIFT COLLECTION</span>
-                <h2 class="scent-reveal" style="transition-delay: 0.3s">보이지 않는 아우라를 선물하다</h2>
-                <p class="scent-reveal" style="transition-delay: 0.5s">
-                    말하지 않아도 전해지는 깊은 온기,<br />
-                    당신과 나 사이의 공백을 채우는 가장 우아한 방법.<br />
-                    AIDORA의 정제된 감각을 소중한 분의 공간에 초대하세요.
-                </p>
-                <div class="scent-reveal" style="transition-delay: 0.7s">
-                    <a href="#" class="btn-luxury">DISCOVER GIFTS</a>
-                </div>
+                <span class="label">GIFT COLLECTION</span>
+                <h2>보이지 않는 아우라를 선물하다</h2>
+                <p>말하지 않아도 전해지는 깊은 온기,<br>당신과 나 사이의 공백을 채우는 가장 우아한 방법.<br>AIDORA의 정제된 감각을 소중한 분의 공간에 초대하세요.</p>
+                <a href="#" class="btn-luxury">DISCOVER GIFTS</a>
             </div>
         </section>
     </main>
 
     <script>
+        // 1. 커서 로직
         const cursorGlow = document.getElementById("cursorGlow");
-        const isMobile = window.innerWidth <= 768;
-        if (!isMobile) {
-            let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2, glowX = mouseX, glowY = mouseY;
-            document.addEventListener("mousemove", (e) => { mouseX = e.clientX; mouseY = e.clientY; });
-            function animateCursor() {
-                glowX += (mouseX - glowX) * 0.1; glowY += (mouseY - glowY) * 0.1;
-                cursorGlow.style.left = glowX + "px"; cursorGlow.style.top = glowY + "px";
-                requestAnimationFrame(animateCursor);
-            }
-            animateCursor();
-        }
+        document.addEventListener("mousemove", (e) => {
+            cursorGlow.style.left = e.clientX + "px";
+            cursorGlow.style.top = e.clientY + "px";
+        });
 
+        // 2. 내비게이션 & 올라가기 버튼 표시 로직
         const navbar = document.getElementById("navbar");
         const backToTopBtn = document.getElementById("backToTop");
-        const heroSection = document.querySelector(".hero");
-
+        
         window.addEventListener("scroll", () => {
+            // 헤더 변화
             if (window.scrollY > 50) navbar.classList.add("scrolled");
             else navbar.classList.remove("scrolled");
 
-            if (window.scrollY > heroSection.offsetHeight) backToTopBtn.classList.add("is-visible");
+            // 버튼 표시 (600px 이상 내려가면 나타남)
+            if (window.scrollY > 600) backToTopBtn.classList.add("is-visible");
             else backToTopBtn.classList.remove("is-visible");
         });
 
-        backToTopBtn.addEventListener("click", (e) => {
-            e.preventDefault();
-            window.scrollTo({ top: 0, behavior: "smooth" });
+        // 3. 👇 올라가기 버튼 기능 복구 (클릭 시 상단 이동)
+        backToTopBtn.addEventListener("click", () => {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
         });
 
-        const scentObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add("is-visible");
-                    observer.unobserve(entry.target);
-                }
+        // 4. 스크롤 애니메이션
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add("is-visible");
             });
         }, { threshold: 0.1 });
-
-        document.querySelectorAll(".scent-reveal, .section-full-visual, .section-gift-full").forEach((el) => scentObserver.observe(el));
+        document.querySelectorAll('.scent-reveal, .section-full-visual, .section-gift-full').forEach(el => observer.observe(el));
     </script>
 </body>
 </html>
